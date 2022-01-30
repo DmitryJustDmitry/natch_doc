@@ -118,14 +118,21 @@ tar -xzf wget-1.21.2.tar.gz && cd wget-1.21.2
 sudo apt install  -y gnutls-dev gnutls-bin
 ```
 
-Успешное выполнение скрипта `configure` с определенными предустановками позволит в т.ч. установить параметры компилятора (требуется для генерации [map-файлов](https://stackoverflow.com/questions/22199844/what-are-gcc-linker-map-files-used-for), сохраняющих информацию об отладочных символах).
+Успешное выполнение скрипта `configure` с определенными предустановками позволит в т.ч. установить параметры компилятора - требуется для генерации [map-файлов](https://stackoverflow.com/questions/22199844/what-are-gcc-linker-map-files-used-for), сохраняющих информацию об отладочных символах. Выполним скрипт: 
 
 ```bash
-
+CFLAGS='-g0 -Xlinker -Map=output.map' ./configure
 ```
+
+и проверим, что map-файлы создались. Данные файлы - в составе общего каталого сборки wget - потребуются нам на хосте, при запуске Natch.
+
 ```bash
-
+find . -name *.map
+./src/output.map
+./output.map
 ```
+
+
 
 
 
