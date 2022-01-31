@@ -104,7 +104,7 @@ qemu-system-x86_64 \
 ```
 Наш образ среды функционирования готов к работе - установке в него пресобранного **с символами** прототипа объекта оценки.
 
-#### Подготовка прототипа объекта оценки
+#### Сборка прототипа объекта оценки
 
 В качестве прототипа объекта оценки будем использовать популярную программу wget. Скачаем её исходные тексты с репозитория:
 ```bash
@@ -124,7 +124,7 @@ sudo apt install  -y gnutls-dev gnutls-bin
 CFLAGS='-g0 -Xlinker -Map=output.map' ./configure
 ```
 
-и проверим, что map-файлы создались. Данные файлы - в составе общего каталого сборки wget - потребуются нам на хосте, при запуске Natch.
+и проверим, что map-файлы создались. Данные файлы - в составе общего каталога сборки wget - потребуются нам на хосте, при запуске Natch.
 
 ```bash
 find . -name *.map
@@ -132,7 +132,57 @@ find . -name *.map
 ./output.map
 ```
 
+#### Перенос прототипа объекта оценки в образ ВМ
 
+Существуют различные способы помещения обмена информацией между хостом и виртуальной машиной. Воспользуемся подходом, основанным на использовании [nbd-сервера QEMU](https://manpages.debian.org/testing/qemu-utils/qemu-nbd.8.en.html), позволяющим [смонтировать](https://gist.github.com/shamil/62935d9b456a6f9877b5) созданный ранее диск в файловую систему хостовой ОС. Для выполнения монтирования диск не должен быть задействован (виртуальная машина должна быть выключена).
+
+Загрузим NBD-драйвер в ядро хостовой ОС:
+
+```bash
+modprobe nbd max_part=8
+```
+
+Смонтируем наш образ диска как сетевое блочное устройство:
+```bash
+sudo qemu-nbd --connect=/dev/nbd0 lubuntu.qcow2
+```
+
+Определим число разделов на устройстве:
+```bash
+fdisk /dev/nbd0 -l
+Disk /dev/nbd0: 20 GiB, 21474836480 bytes, 41943040 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xe6ea1316
+
+Device      Boot Start      End  Sectors Size Id Type
+/dev/nbd0p1 *     2048 41940991 41938944  20G 83 Linux
+
+```
+
+Смонтируем раздел в какой-либо каталог хостовой ОС (например, традиционно, в mnt)
+```bash
+sudo mount /dev/nbd0p1 /mnt/
+ls /mnt
+bin   dev  home        initrd.img.old  lib64       media  opt   root  sbin  swapfile  tmp  var      vmlinuz.old
+boot  etc  initrd.img  lib             lost+found  mnt    proc  run   srv   sys       usr  vmlinuz
+```
+
+Поместим прототип ОО на смонтированный раздел:
+```bash
+sudo cp -r wget-1.21.2 /mnt/ && ls /mnt
+bin   dev  home        initrd.img.old  lib64       media  opt   root  sbin  swapfile  tmp  var      vmlinuz.old
+boot  etc  initrd.img  lib             lost+found  mnt    proc  run   srv   sys       usr  vmlinuz  wget-1.21.2
+```
+
+Отмонтируем диск:
+```bash
+sudo umount /mnt/
+sudo qemu-nbd --disconnect /dev/nbd0
+sudo rmmod nbd
+```
 
 
 
