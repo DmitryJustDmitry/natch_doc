@@ -121,7 +121,8 @@ sudo apt install  -y gnutls-dev gnutls-bin
 Успешное выполнение скрипта `configure` с определенными предустановками позволит в т.ч. установить параметры компилятора - требуется для генерации [map-файлов](https://stackoverflow.com/questions/22199844/what-are-gcc-linker-map-files-used-for), сохраняющих информацию об отладочных символах. Выполним скрипт: 
 
 ```bash
-CFLAGS='-g0 -Xlinker -Map=output.map' ./configure
+CFLAGS='-g0 -Xlinker -Map=output.map' ./configure && \
+make
 ```
 
 и проверим, что map-файлы создались. Данные файлы - в составе общего каталога сборки wget - потребуются нам на хосте, при запуске Natch.
