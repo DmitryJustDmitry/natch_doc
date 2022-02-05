@@ -18,7 +18,11 @@ Natch (Network Application Tainting Can Help) - это инструмент дл
 
 Комплект поставки Natch доступен в облаке, ниже приведены ссылки на доступные релизы (рекомендуется использовать наиболее актуальный релиз):
 
+**Актуальный релиз:**
 [Natch v.1.2](https://nextcloud.ispras.ru/s/Sd439xDgoyzLPTt)
+
+Предыдущие релизы:
+
 
 
 ### 1.2. Общие принципы подготовки виртуализированной среды в формате QEMU
@@ -253,17 +257,32 @@ rm -f Natch.v.1.2.zip && \
 rm -rf Natch\ v.1.2
 
 unzip Wget_test_image.zip && \
-rm -f Wget_test_image.zip && \
+unzip Natch\ testing\ materials/Useful\ data/wget.zip && \
+mv Natch\ testing\ materials/Images/debian10_wget2.qcow2 . && \
+rm -rf 'Natch testing materials' && \
+rm -f Wget_test_image.zip
 ```
 
 Проверим, что всё на месте:
 ```bash
 ls -la
-
-
+total 7138720
+drwxrwxr-x  6 user user       4096 фев  5 10:36 .
+drwxr-xr-x 24 user user       4096 фев  5 09:42 ..
+-rw-r--r--  1 user user 7310016512 фев  3 07:58 debian10_wget2.qcow2
+drwxr-xr-x  3 user user       4096 фев  3 12:09 docs
+drwxr-xr-x  2 user user       4096 фев  3 11:50 libs
+drwxr-xr-x  7 user user       4096 фев  3 11:50 qemu_plugins_2004_natch_release
+drwxrwxr-x  3 user user       4096 дек 23 15:17 wget2
+-rw-rw-r--  1 user user        166 дек 23 15:16 wget_api.cfg
 ```
 
-В каталоге `docs` размещается веб-страница руководства `Natch v.1.2 — QEMU documentation.html`. В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма preload при запуске qemu-system). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. В каталоге `Images` размещается подготовленный образ в формате qcow2. В каталоге `Useful data` помещается пресобранная версия wget, а также файл конфигурации `wget_api.cfg`, который будет рассмотрен ниже.
+В каталоге `docs` размещается веб-страница руководства `Natch v.1.2 — QEMU documentation.html`. В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма preload при запуске qemu-system). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. Подготовленный образ в формате qcow2, пресобранная версия wget а также файл конфигурации `wget_api.cfg` (будет рассмотрен ниже) помещены в корень рабочего каталога (размещение не принципиально).
+
+#### Настройка Natch
+
+
+
 
 
 
