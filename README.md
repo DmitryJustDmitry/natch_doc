@@ -12,7 +12,7 @@
 
 Natch (Network Application Tainting Can Help) - это инструмент для определения поверхности атаки, основанный на полносистемном эмуляторе Qemu. Основная функция Natch - получение списка модулей (исполняемых файлов и динамических библиотек) и функций, используемных системой во время выполнения задачи. Natch представляет собой набор плагинов для эмулятора Qemu.
 
-Общие принципы работы Natch, доступные плагины, команды управления Natch и их параметры представлены в веб-странице руководства `Natch v.1.1 — QEMU documentation.html`, доступном в комплекте поставки.
+Общие принципы работы Natch, доступные плагины, команды управления Natch и их параметры представлены в веб-странице руководства `Natch v.1.2 — QEMU documentation.html`, доступном в комплекте поставки.
 
 #### Комплект поставки
 
@@ -235,40 +235,51 @@ cd /wget-1.21.2 && sudo ./wget ispras.ru
 ### 2.1 Анализ образа системы, содержащего пресобранную с символами программу wget 
 
 Для выполнения данного примера потребуется:
-- рабочая станция под управлением ОС Linux (традиционно Ubuntu 20.04);
-- актуальный [дистрибутив](#комплект-поставки) Natch 
+- рабочая станция под управлением ОС Linux (традиционно Ubuntu 20.04). Установка пакета **qemu-system** не требуется, нужная версия входит в дистрибутив Natch;
+- актуальный [дистрибутив](#комплект-поставки) Natch;
+- подготовленный разработчиком [тестовый набор](https://nextcloud.ispras.ru/s/zADLsJTEW7JcwpB), включающий в себя пресобранную с символами и map-файлами версию wget и тестовый образ на базе Debian10, содержащий пресобранную версию wget. 
 
-Установить на хост требуемое системное ПО, в т.ч. qemu: 
+#### Получение образа и дистрибутива
 ```bash
-sudo apt install  -y curl qemu-system
+# Получение дистрибутива Natch v.1.2
+curl -o Natch.zip 'https://nextcloud.ispras.ru/s/Sd439xDgoyzLPTt/download' && \
+curl -o Wget_test_image.zip 'https://nextcloud.ispras.ru/s/zADLsJTEW7JcwpB/download'
+
+unzip Natch.v.1.2.zip && \
+unzip Natch\ v.1.2/docs.zip && \
+unzip Natch\ v.1.2/qemu_plugins_2004_natch_release_latest.zip && \
+unzip Natch\ v.1.2/libs_2004_natch_release_latest.zip && \
+rm -f Natch.v.1.2.zip && \
+rm -rf Natch\ v.1.2
+
+unzip Wget_test_image.zip && \
+rm -f Wget_test_image.zip && \
 ```
 
-Получить представление об общих принципах функционирования и командах управления эмулятора qemu - в [первоисточнике](https://qemu-project.gitlab.io/qemu/system/quickstart.html) или в [переводе](http://onreader.mdl.ru/KVMVirtualizationCookbook/content/Ch01.html).
-
-Создать каталог ~/natch_quickstart (название выбрано произвольно), скачать комлпект поставки Natch в данный каталог:
-```bas
-cd  ~/natch_quickstart && \
-curl -o Natch_documentation.pdf 'https://nextcloud.ispras.ru/s/raFWeX6B7XgYWDt/download?path=%2FNatch%20v.1.1&files=Natch_Documentation.pdf&downloadStartSecret=w0qrqfp8d9' && \
-curl -o libs.zip 'https://nextcloud.ispras.ru/s/raFWeX6B7XgYWDt/download?path=%2FNatch%20v.1.1&files=libs_1804_natch_release_latest.zip&downloadStartSecret=shqvee1d2de' && \
-curl -o plugins.zip 'https://nextcloud.ispras.ru/s/raFWeX6B7XgYWDt/download?path=%2FNatch%20v.1.1&files=qemu_plugins_1804_natch_release_latest.zip&downloadStartSecret=j0vq3mla9o8' && \
-unzip libs.zip && \
-unzip plugins.zip && \
-rm -f libs.zip plugins.zip
-```
-
-Ознакомиться с документацией на Natch в файле `Natch_Documentation.pdf`, в частности получить представление:
-
-- об основных принципах работы Natch
-- об основных видах анализа и реализующих их плагинах
-- о типовых командах Natch
-
-Скачать [обучающий комплект](https://nextcloud.ispras.ru/s/o4w2mSqYAP4xFY3), включающий в себя в том числе qemu-образ, содержащий пресобранную с отладочными символами версию программы wget. Наличие символов позволит Natch формировать более читабельные отчеты, подставляя имена реальных функций анализируемой программы вместо адресов в памяти. Скачать образ можно командой: 
-
+Проверим, что всё на месте:
 ```bash
-cd  ~/natch_quickstart && \
-curl -o wget_image.zip https://nextcloud.ispras.ru/s/o4w2mSqYAP4xFY3/download && \
-unzip wget_image.zip && \
-rm -f wget_image.zip && \
-mv 'For Dmitriy' wget_image # Временное название каталога на сервере надо будет заменить на что-то общеупотребительное
+ls -la
+
+
 ```
+
+В каталоге `docs` размещается веб-страница руководства `Natch v.1.2 — QEMU documentation.html`. В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма preload при запуске qemu-system). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. В каталоге `Images` размещается подготовленный образ в формате qcow2. В каталоге `Useful data` помещается пресобранная версия wget, а также файл конфигурации `wget_api.cfg`, который будет рассмотрен ниже.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
