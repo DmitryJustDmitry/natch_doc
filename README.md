@@ -246,7 +246,7 @@ cd /wget-1.21.2 && sudo ./wget ispras.ru
 #### Получение образа и дистрибутива
 ```bash
 # Получение дистрибутива Natch v.1.2
-curl -o Natch.zip 'https://nextcloud.ispras.ru/s/Sd439xDgoyzLPTt/download' && \
+curl -o Natch.v.1.2.zip 'https://nextcloud.ispras.ru/s/Sd439xDgoyzLPTt/download' && \
 curl -o Wget_test_image.zip 'https://nextcloud.ispras.ru/s/zADLsJTEW7JcwpB/download'
 
 unzip Natch.v.1.2.zip && \
