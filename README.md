@@ -1,6 +1,6 @@
 # Natch Quickstart
 
-*(актуально на момент 05.02.2022)*
+*(актуально на момент 19.04.2022)*
 
 ## Введение
 
@@ -12,17 +12,17 @@
 
 Natch (Network Application Tainting Can Help) - это инструмент для определения поверхности атаки, основанный на полносистемном эмуляторе Qemu. Основная функция Natch - получение списка модулей (исполняемых файлов и динамических библиотек) и функций, используемных системой во время выполнения задачи. Natch представляет собой набор плагинов для эмулятора Qemu.
 
-Общие принципы работы Natch, доступные плагины, команды управления Natch и их параметры представлены в веб-странице руководства `Natch v.1.2 — QEMU documentation.html`, доступном в комплекте поставки.
+Общие принципы работы Natch, доступные плагины, команды управления Natch и их параметры представлены в веб-странице руководства `Natch v.1.2.1 — QEMU documentation.html`, доступном в комплекте поставки.
 
 #### Комплект поставки
 
 Комплект поставки Natch доступен в облаке, ниже приведены ссылки на доступные релизы (рекомендуется использовать наиболее актуальный релиз):
 
 **Актуальный релиз:**
-[Natch v.1.2](https://nextcloud.ispras.ru/s/Sd439xDgoyzLPTt)
+[Natch v.1.2.1](https://nextcloud.ispras.ru/index.php/s/8YSBjPSCMzAttWx)
 
 Предыдущие релизы:
-
+[Natch v.1.2](https://nextcloud.ispras.ru/s/Sd439xDgoyzLPTt)
 
 
 ### 1.2. Общие принципы подготовки виртуализированной среды в формате QEMU
@@ -41,7 +41,7 @@ Natch (Network Application Tainting Can Help) - это инструмент дл
 sudo kvm-ok
 ```
 
-при написании данной статьи в моей хостовой системе такая возможность отсутствовала, но менять конфигурации хостовй ВМ VirtualBox мне не хотелось
+при написании данной статьи в моей хостовой системе такая возможность отсутствовала, но менять конфигурации хостовой ВМ VirtualBox мне не хотелось
 
 ```bash
 [sudo] password for user: 
@@ -241,26 +241,26 @@ cd /wget-1.21.2 && sudo ./wget ispras.ru
 Для выполнения данного примера потребуется:
 - рабочая станция под управлением ОС Linux (традиционно Ubuntu 20.04). Установка пакета **qemu-system** не требуется, нужная версия входит в дистрибутив Natch;
 - актуальный [дистрибутив](#комплект-поставки) Natch;
-- подготовленный разработчиком [тестовый набор](https://nextcloud.ispras.ru/s/zADLsJTEW7JcwpB), включающий в себя пресобранную с символами и map-файлами версию wget2 и тестовый образ на базе Debian10, содержащий пресобранную версию wget2. 
+- подготовленный разработчиком [тестовый набор](https://nextcloud.ispras.ru/index.php/s/eCsXcM6QQgxRLWQ), включающий в себя пресобранную с символами и map-файлами версию wget2 и тестовый образ на базе Debian10, содержащий пресобранную версию wget2. 
 
 #### Получение образа и дистрибутива
-```bash
-# Получение дистрибутива Natch v.1.2
-curl -o Natch.v.1.2.zip 'https://nextcloud.ispras.ru/s/Sd439xDgoyzLPTt/download' && \
-curl -o Wget_test_image.zip 'https://nextcloud.ispras.ru/s/zADLsJTEW7JcwpB/download'
+```bash ву  
+# Получение дистрибутива Natch
+curl -o Natch.zip 'https://nextcloud.ispras.ru/index.php/s/8YSBjPSCMzAttWx/download?path=%2F&downloadStartSecret=ndjwrxceg7p' && \
+curl -o Natch_testing_materials.zip 'https://nextcloud.ispras.ru/index.php/s/eCsXcM6QQgxRLWQ/download?path=%2F&downloadStartSecret=7mpvueqkd4v'
 
-unzip Natch.v.1.2.zip && \
-unzip Natch\ v.1.2/docs.zip && \
-unzip Natch\ v.1.2/qemu_plugins_2004_natch_release_latest.zip && \
-unzip Natch\ v.1.2/libs_2004_natch_release_latest.zip && \
-rm -f Natch.v.1.2.zip && \
-rm -rf Natch\ v.1.2
+unzip Natch.zip && \
+unzip Natch_v.1.2.1/Docs/docs.zip -d . && \
+unzip Natch_v.1.2.1/Bins/qemu_plugins_2004_natch_release_latest.zip -d . && \
+unzip Natch_v.1.2.1/Bins/libs_2004_natch_release_latest.zip -d . && \
+rm -f Natch.zip && \
+rm -rf Natch_v.1.2.1
 
-unzip Wget_test_image.zip && \
+unzip Natch_testing_materials.zip -d . && \
 unzip Natch\ testing\ materials/Useful\ data/wget.zip && \
 mv Natch\ testing\ materials/Images/debian10_wget2.qcow2 . && \
 rm -rf 'Natch testing materials' && \
-rm -f Wget_test_image.zip
+rm -f Natch_testing_materials.zip
 ```
 
 Проверим, что всё на месте:
