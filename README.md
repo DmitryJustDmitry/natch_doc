@@ -256,28 +256,29 @@ unzip Natch_v.1.2.1/Bins/libs_2004_natch_release_latest.zip -d . && \
 rm -f Natch.zip && \
 rm -rf Natch_v.1.2.1
 
-unzip Natch_testing_materials.zip -d . && \
-unzip Natch\ testing\ materials/Useful\ data/wget.zip && \
-mv Natch\ testing\ materials/Images/debian10_wget2.qcow2 . && \
-rm -rf 'Natch testing materials' && \
-rm -f Natch_testing_materials.zip
+unzip Natch_testing_materials.zip && \
+mv Natch_testing_materials/* . && \
+unzip -u wget.zip && \
+rm -rf Natch_testing_materials && \
+rm Natch_testing_materials.zip && \
+rm wget.zip
 ```
 
 Проверим, что всё на месте:
 ```bash
 ls -la
-total 7138720
-drwxrwxr-x  6 user user       4096 фев  5 10:36 .
-drwxr-xr-x 24 user user       4096 фев  5 09:42 ..
--rw-r--r--  1 user user 7310016512 фев  3 07:58 debian10_wget2.qcow2
-drwxr-xr-x  3 user user       4096 фев  3 12:09 docs
-drwxr-xr-x  2 user user       4096 фев  3 11:50 libs
-drwxr-xr-x  7 user user       4096 фев  3 11:50 qemu_plugins_2004_natch_release
-drwxrwxr-x  3 user user       4096 дек 23 15:17 wget2
--rw-rw-r--  1 user user        166 дек 23 15:16 wget_api.cfg
+total 7150752
+drwxrwxr-x  6 tester tester       4096 апр 19 22:56 .
+drwxr-xr-x 19 tester tester       4096 апр 18 09:32 ..
+-rw-r--r--  1 tester tester 7322337280 мар 17 11:08 debian10_wget2.qcow2
+drwxrwxr-x  3 tester tester       4096 мар 14 12:15 docs
+drwxr-xr-x  2 tester tester       4096 мар 16 12:40 libs
+drwxrwxr-x  3 tester tester       4096 мар 16 15:07 qemu_plugins_2004_natch_release_latest
+drwxrwxr-x  3 tester tester       4096 дек 23 15:17 wget2
+-rw-rw-r--  1 tester tester        166 дек 23 15:16 wget_api.cfg
 ```
 
-В каталоге `docs` размещается веб-страница руководства `Natch v.1.2 — QEMU documentation.html`. В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма [preload](https://www.baeldung.com/linux/ld_preload-trick-what-is#:~:text=The%20LD_PRELOAD%20trick%20is%20a,a%20collection%20of%20compiled%20functions.) при запуске qemu-system). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. Подготовленный образ в формате qcow2, каталог с пресобранной версией wget2 а также файл конфигурации `wget_api.cfg` (будет рассмотрен ниже) помещены в корень рабочего каталога (размещение не принципиально).
+В каталоге `docs` размещается веб-страница руководства `Natch v.1.2.1 — QEMU documentation.html`. В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма [preload](https://www.baeldung.com/linux/ld_preload-trick-what-is#:~:text=The%20LD_PRELOAD%20trick%20is%20a,a%20collection%20of%20compiled%20functions.) при запуске qemu-system). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. Подготовленный образ в формате qcow2, каталог с пресобранной версией wget2 а также файл конфигурации `wget_api.cfg` (будет рассмотрен ниже) помещены в корень рабочего каталога (размещение не принципиально).
 
 #### Настройка Natch
 
