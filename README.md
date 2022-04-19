@@ -252,9 +252,11 @@ curl -o Natch_testing_materials.zip 'https://nextcloud.ispras.ru/index.php/s/eCs
 unzip Natch.zip && \
 unzip Natch_v.1.2.1/Docs/docs.zip -d . && \
 unzip Natch_v.1.2.1/Bins/qemu_plugins_2004_natch_release_latest.zip -d . && \
+mv qemu_plugins_2004_natch_release_latest/qemu_plugins_2004_natch_release . && \
 unzip Natch_v.1.2.1/Bins/libs_2004_natch_release_latest.zip -d . && \
 rm -f Natch.zip && \
-rm -rf Natch_v.1.2.1
+rm -rf Natch_v.1.2.1 && \
+rm -rf qemu_plugins_2004_natch_release_latest/
 
 unzip Natch_testing_materials.zip && \
 mv Natch_testing_materials/* . && \
@@ -317,15 +319,26 @@ map==~/natch_quickstart/wget2/lib/libwget.so.1.0.0.map
 ##### Этап 2. Формирование скриптового и конфигурациионного окружения
 
 С целью решения задачи автоматизации порождения типовых скриптов управления и основного файла конфигурации Natch создан скрипт `natch_run.sh`. На вход данному скрипту необходимо подать некоторые параметры, такие как:
-- имя образа qcow2
-- объем RAM, выделяемый ВМ
-- ряд опциональных параметров, в т.ч. включающих/выключающих некоторые аналитические возможности Natch (подробнее см. документацию п. 3.1) 
+- имя образа qcow2 (обязательный параметр)
+- ряд опциональных параметров (выделяемый ВМ объем RAM, специальная версия ядра Линукс), в т.ч. включающих/выключающих некоторые аналитические возможности Natch (подробнее см. документацию п. 3.1) 
+
+Параметры допускается задавать в формате переменных среды функционирования, воспользуемся именно этим подходом:
 
 ```bash
 cd qemu_plugins_2004_natch_release/bin && \
-./natch_run.sh
+IMAGE=~/natch_quickstart/debian10_wget2.qcow2 ./natch_run.sh
+```
 
+И несколько нажатий Enter - параметры по умолчанию нас устраивают. Мы должны увидеть лог, содержащий что-то подобное:
 
+```bash
+...
+Formatting '/home/tester/natch_quickstart/debian10_wget2.diff', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=68719476736 backing_file=/home/tester/natch_quickstart/debian10_wget2.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
+Overlay created
+Enter custom options: 
+
+Settings completed!
+...
 ```
 
 
