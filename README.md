@@ -345,6 +345,37 @@ Settings completed!
 - скрипт запуск Natch в режиме записи трассы для последующего анализа (подробнее см. документацию п. 3.4)
 - скрипт запуска Natch в режиме воспроизведения и анализа трассы (подробнее см. документацию п. 3.5) 
 
+```config
+# Natch config sample
+  
+
+# [Ports]
+ in=80
+ out=80
+
+# [Taint]
+ threshold=250
+ on=true
+
+# [Modules]
+  config=~/natch_quickstart/wget_api.cfg
+# log=api_taint_log.txt
+
+# [Tasks]
+  config=task_config.ini
+# file=processes.log
+
+# [Syscalls]
+# config=x86_64_Linux.cfg
+
+# [Netlog]
+# log=netpackets.log
+# tlog=tnetpackets.log
+
+# [Icount]
+# steps=1111111111;5555555555
+
+```
 
 
 
