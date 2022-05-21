@@ -472,12 +472,15 @@ Ctrl + Alt + G
 ![image](https://user-images.githubusercontent.com/46653985/169650073-78d3918f-7044-412a-8474-f5f763438d8f.png)
 
 ```bash
-LD_LIBRARY_PATH=~/natch_quickstart/libs/ ./run_record.sh
+LD_LIBRARY_PATH=~/natch_quickstart/libs/ ./run_replay.sh
 ```
 
 ![image](https://user-images.githubusercontent.com/46653985/169650206-15ab58e0-bcb0-4eb5-aa38-2c7b4777216c.png)
 
 ![image](https://user-images.githubusercontent.com/46653985/169652276-5fc5e8e5-6d91-4e84-b53e-333074d39f9c.png)
+
+![image](https://user-images.githubusercontent.com/46653985/169653222-8d8ad214-ccf1-42f3-b938-aaa04568eaa3.png)
+
 
 ##### Этап 5. Анализ трассы
 
