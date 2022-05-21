@@ -1,6 +1,6 @@
 # Natch Quickstart
 
-*(актуально на момент 19.04.2022)*
+*(актуально на момент 21.05.2022)*
 
 ## Введение
 
@@ -12,16 +12,17 @@
 
 Natch (Network Application Tainting Can Help) - это инструмент для определения поверхности атаки, основанный на полносистемном эмуляторе Qemu. Основная функция Natch - получение списка модулей (исполняемых файлов и динамических библиотек) и функций, используемных системой во время выполнения задачи. Natch представляет собой набор плагинов для эмулятора Qemu.
 
-Общие принципы работы Natch, доступные плагины, команды управления Natch и их параметры представлены в веб-странице руководства `Natch v.1.2.1 — QEMU documentation.html`, доступном в комплекте поставки.
+Общие принципы работы Natch, доступные плагины, команды управления Natch и их параметры представлены в веб-странице руководства `Natch v.1.3 — QEMU documentation.html`, доступном в комплекте поставки.
 
 #### Комплект поставки
 
 Комплект поставки Natch доступен в облаке, ниже приведены ссылки на доступные релизы (рекомендуется использовать наиболее актуальный релиз):
 
 **Актуальный релиз:**
-[Natch v.1.2.1](https://nextcloud.ispras.ru/index.php/s/8YSBjPSCMzAttWx)
+[Natch v.1.3](https://nextcloud.ispras.ru/index.php/s/Natch_v.1.3/download?path=%2F&downloadStartSecret=yyiov6rvlj)
 
 Предыдущие релизы:
+[Natch v.1.2.1](https://nextcloud.ispras.ru/index.php/s/8YSBjPSCMzAttWx)
 [Natch v.1.2](https://nextcloud.ispras.ru/s/Sd439xDgoyzLPTt)
 
 
@@ -245,18 +246,16 @@ cd /wget-1.21.2 && sudo ./wget ispras.ru
 
 #### Получение образа и дистрибутива
 ```bash ву  
-# Получение дистрибутива Natch
-curl -o Natch.zip 'https://nextcloud.ispras.ru/index.php/s/8YSBjPSCMzAttWx/download?path=%2F&downloadStartSecret=ndjwrxceg7p' && \
-curl -o Natch_testing_materials.zip 'https://nextcloud.ispras.ru/index.php/s/eCsXcM6QQgxRLWQ/download?path=%2F&downloadStartSecret=7mpvueqkd4v'
+# Получение дистрибутива Natchmv
+curl -o Natch.zip 'https://nextcloud.ispras.ru/index.php/s/Natch_v.1.3/download?path=%2F&downloadStartSecret=yyiov6rvlj' && \
+curl -o Natch_testing_materials.zip 'https://nextcloud.ispras.ru/index.php/s/testing_materials/download?path=%2F&downloadStartSecret=mv78e6aiu1'
 
 unzip Natch.zip && \
-unzip Natch_v.1.2.1/Docs/docs.zip -d . && \
-unzip Natch_v.1.2.1/Bins/qemu_plugins_2004_natch_release_latest.zip -d . && \
-mv qemu_plugins_2004_natch_release_latest/qemu_plugins_2004_natch_release . && \
-unzip Natch_v.1.2.1/Bins/libs_2004_natch_release_latest.zip -d . && \
+unzip Natch/Docs/docs.zip -d . && \
+unzip Natch/Bins/qemu_plugins_2004_natch_release_latest.zip -d . && \
+unzip Natch/Bins/libs_2004_natch_release_latest.zip -d . && \
 rm -f Natch.zip && \
-rm -rf Natch_v.1.2.1 && \
-rm -rf qemu_plugins_2004_natch_release_latest/
+rm -rf Natch &&rm -rf 
 
 unzip Natch_testing_materials.zip && \
 mv Natch_testing_materials/* . && \
@@ -269,18 +268,19 @@ rm wget.zip
 Проверим, что всё на месте:
 ```bash
 ls -la
-total 7150752
-drwxrwxr-x  6 tester tester       4096 апр 19 22:56 .
-drwxr-xr-x 19 tester tester       4096 апр 18 09:32 ..
--rw-r--r--  1 tester tester 7322337280 мар 17 11:08 debian10_wget2.qcow2
-drwxrwxr-x  3 tester tester       4096 мар 14 12:15 docs
-drwxr-xr-x  2 tester tester       4096 мар 16 12:40 libs
-drwxrwxr-x  3 tester tester       4096 мар 16 15:07 qemu_plugins_2004_natch_release_latest
+total 7150948
+drwxrwxr-x  6 tester tester       4096 мая 21 12:14 .
+drwxr-xr-x 19 tester tester       4096 мая 10 10:30 ..
+-rw-r--r--  1 tester tester     197632 апр 19 23:08 debian10_wget2.diff
+-rw-r--r--  1 tester tester 7322337280 апр 21 09:52 debian10_wget2.qcow2
+drwxrwxr-x  3 tester tester       4096 апр 22 10:52 docs
+drwxr-xr-x  2 tester tester       4096 апр 21 16:25 libs
+drwxr-xr-x  9 tester tester       4096 апр 21 16:25 qemu_plugins_2004_natch_release
 drwxrwxr-x  3 tester tester       4096 дек 23 15:17 wget2
--rw-rw-r--  1 tester tester        166 дек 23 15:16 wget_api.cfg
+-rw-rw-r--  1 tester tester        208 апр 19 23:00 wget_api.cfg
 ```
 
-В каталоге `docs` размещается веб-страница руководства `Natch v.1.2.1 — QEMU documentation.html`. В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма [preload](https://www.baeldung.com/linux/ld_preload-trick-what-is#:~:text=The%20LD_PRELOAD%20trick%20is%20a,a%20collection%20of%20compiled%20functions.) при запуске qemu-system). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. Подготовленный образ в формате qcow2, каталог с пресобранной версией wget2 а также файл конфигурации `wget_api.cfg` (будет рассмотрен ниже) помещены в корень рабочего каталога (размещение не принципиально).
+В каталоге `docs` размещается веб-страница руководства `Natch v.1.3 — QEMU documentation.html`. В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма [preload](https://www.baeldung.com/linux/ld_preload-trick-what-is#:~:text=The%20LD_PRELOAD%20trick%20is%20a,a%20collection%20of%20compiled%20functions.) при запуске qemu-system). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. Подготовленный образ в формате qcow2, каталог с пресобранной версией wget2 а также файл конфигурации `wget_api.cfg` (будет рассмотрен ниже) помещены в корень рабочего каталога (размещение не принципиально).
 
 #### Настройка Natch
 
