@@ -245,7 +245,7 @@ cd /wget-1.21.2 && sudo ./wget ispras.ru
 Для выполнения данного примера потребуется:
 - рабочая станция под управлением ОС Linux (традиционно Ubuntu 20.04). Установка пакета **qemu-system** не требуется, нужная версия входит в дистрибутив Natch;
 - актуальный [дистрибутив](#комплект-поставки) Natch;
-- подготовленный разработчиком [тестовый набор](https://nextcloud.ispras.ru/index.php/s/eCsXcM6QQgxRLWQ), включающий в себя пресобранную с символами и map-файлами версию wget2 и тестовый образ на базе Debian10, содержащий пресобранную версию wget2. 
+- подготовленный разработчиком [тестовый набор]([https://nextcloud.ispras.ru/index.php/s/eCsXcM6QQgxRLWQ](https://nextcloud.ispras.ru/index.php/s/testing_materials)), включающий в себя пресобранную с символами и map-файлами версию wget2 и тестовый образ на базе Debian10, содержащий пресобранную версию wget2. 
 
 #### Получение образа и дистрибутива
 ```bash ву  
@@ -329,34 +329,58 @@ map==~/natch_quickstart/wget2/lib/libwget.so.1.0.0.map
 
 ##### Этап 2. Формирование скриптового и конфигурациионного окружения
 
-С целью решения задачи автоматизации порождения типовых скриптов управления и основного файла конфигурации Natch создан скрипт `natch_run.sh`. На вход данному скрипту необходимо подать некоторые параметры, такие как:
+С целью решения задачи автоматизации порождения типовых скриптов управления и основного файла конфигурации Natch создан скрипт `natch_run.py`. На вход данному скрипту необходимо подать некоторые параметры, такие как:
 - имя образа qcow2 (обязательный параметр)
 - ряд опциональных параметров (выделяемый ВМ объем RAM, специальная версия ядра Линукс), в т.ч. включающих/выключающих некоторые аналитические возможности Natch (подробнее см. документацию п. 3.1) 
 
-Параметры допускается задавать в формате переменных среды функционирования, воспользуемся именно этим подходом для задания пути к нашему тестовому образу (переменная IMAGE):
+Параметр пути к образу qcow2 допускается задавать в виде переменной скрипта, воспользуемся этим подходом:
 
 ```bash
-cd qemu_plugins_2004_natch_release/bin && \
-IMAGE=~/natch_quickstart/debian10_wget2.qcow2 ./natch_run.sh
+cd qemu_plugins_2004_natch_release/bin/natch_scripts && \
+./natch_run.py  ~/natch_quickstart/debian10_wget2.qcow2
 ```
 
-И несколько нажатий Enter - параметры по умолчанию нас устраивают. Мы должны увидеть лог, содержащий сообщения о том, что скрипты запуска Natch подготовлены успешно:
+И несколько нажатий Enter - параметры по умолчанию нас устраивают, за исключение принудительно включаемых генераторов графов:
+
+```bash
+Image: /home/tester/natch_quickstart/debian10_wget2.qcow2
+Common options
+Enter RAM size (in Gb, e.g. 4): 
+The default value is set to 4Gb
+Do you want include launch Natch into command line? [Y/n] 
+Natch options
+Enter name of config file or press Enter for using default name: 
+Do you want enable task_graph? [y/N]  y        <<-- Включить отрисовку графа задач
+Do you want enable module_graph? [y/N]  y        <<-- Включить отрисовку графа модулей
+Only for record mode
+Do you want enable net_log? [Y/n]  
+Now we will try to create overlay
+Overlay created        <<-- Успешно создан слой для виртуального диска
+Enter custom options (with '-'): 
+
+Settings completed!
+
+Here is your command line one:
+```
+
+Мы должны увидеть лог, содержащий сообщения о том, что скрипты запуска Natch подготовлены успешно:
 
 ```bash
 ...
-Formatting '/home/tester/natch_quickstart/debian10_wget2.diff', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=68719476736 backing_file=/home/tester/natch_quickstart/debian10_wget2.qcow2 backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
-Overlay created
-Enter custom options: 
+File '/home/tester/natch_quickstart/qemu_plugins_2004_natch_release/bin/natch_scripts/natch_config.cfg' created. You must edit it before using Natch.
 
-Settings completed!
-...
+After checking config file you can launch:
+	just Qemu with help './run.sh'
+	Qemu in record mode with help'./run_record.sh'
+	Qemu in replay mode with help'./run_replay.sh'
+
 ```
 а также три скрипта: 
 - скрипт первоего - настроечного - запуска Natch (подробнее см. документацию п. 3.3)
 - скрипт запуск Natch в режиме записи трассы для последующего анализа (подробнее см. документацию п. 3.4)
 - скрипт запуска Natch в режиме воспроизведения и анализа трассы (подробнее см. документацию п. 3.5) 
 
-Отредактируем основной конфигурационный файл  Natch в соответствии с рекомендациями (подробнее см. документацию п. 2.1). В качестве порта - источника помеченных данных - оставим порты 80 и 443 (в ходе теста будем выполнять обращение к сайту по HTTP-протоколу (80), после чего будет выполнено автоматическое перенаправление на HTTPS-версию страницы (443)). Раскомментируем секцию Taint для сохранения сведений о взаимодействии анализируемого процесса с помеченными данными. Укажем путь к файлам, содержащим map-файлы в секции Modules.
+Отредактируем сгенерированный основной конфигурационный файл  Natch `natch_config.cfg` в соответствии с рекомендациями (подробнее см. документацию п. 2.1). В качестве порта - источника помеченных данных - оставим порты 80 и 443 (в ходе теста будем выполнять обращение к сайту по HTTP-протоколу (80), после чего будет выполнено автоматическое перенаправление на HTTPS-версию страницы (443)). Раскомментируем секцию Taint для сохранения сведений о взаимодействии анализируемого процесса с помеченными данными. Укажем путь к файлам, содержащим map-файлы в секции Modules.
 
 ```bash
 # Natch config sample
