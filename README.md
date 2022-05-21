@@ -457,6 +457,9 @@ LD_LIBRARY_PATH=~/natch_quickstart/libs/ ./run_record.sh
 
 Ctrl + Alt + G
 
+![image](https://user-images.githubusercontent.com/46653985/169653153-8476fa22-232e-4f13-99af-2dafac3aee4f.png)
+
+
 ![image](https://user-images.githubusercontent.com/46653985/169649738-0def47f6-b1b8-4544-9f72-7dc74a25be9d.png)
 
 ![image](https://user-images.githubusercontent.com/46653985/169649904-2e873c76-ebe0-4601-9eeb-9a3b5c76e0a3.png)
