@@ -317,12 +317,12 @@ textstart=0xe000
 ```bash
 cat ../wget_api.cfg 
 [Image1]
-path=~/natch_quickstart/wget2/wget2
-map=~/natch_quickstart/wget2/wget2.map
+path=/home/tester/natch_quickstart/wget2/wget2
+map=/home/tester/natch_quickstart/wget2/wget2.map
 
 [Image2]
-path==~/natch_quickstart/wget2/lib/libwget.so.1.0.0
-map==~/natch_quickstart/wget2/lib/libwget.so.1.0.0.map
+path=/home/tester/natch_quickstart/wget2/lib/libwget.so.1.0.0
+map=/home/tester/natch_quickstart/wget2/lib/libwget.so.1.0.0.map
 ```
 
 Заполнение конфигурационного файла можно автоматизировать, указав на вход скрипту `qemu_plugins_2004_natch_release/bin/natch_scripts\module_config.py`, описанному в п. 2.2 документации, имя каталога на хосте, содержащего исполняемые файлы и map-файлы (имена map-файлов должны совпадать с именами соответствующих исполняемых файлов).
@@ -464,11 +464,19 @@ Ctrl + Alt + G
 
 Теперь всё готово к анализу трассы.
 
-##### Этап 4. Анализ трассы
+##### Этап 4. Воспроизведение трассы
 
+![image](https://user-images.githubusercontent.com/46653985/169650073-78d3918f-7044-412a-8474-f5f763438d8f.png)
 
+```bash
+LD_LIBRARY_PATH=~/natch_quickstart/libs/ ./run_record.sh
+```
 
+![image](https://user-images.githubusercontent.com/46653985/169650206-15ab58e0-bcb0-4eb5-aa38-2c7b4777216c.png)
 
+![image](https://user-images.githubusercontent.com/46653985/169652276-5fc5e8e5-6d91-4e84-b53e-333074d39f9c.png)
+
+##### Этап 5. Анализ трассы
 
 
 
