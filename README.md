@@ -441,6 +441,27 @@ LD_LIBRARY_PATH=~/natch_quickstart/libs/ ./run.sh
 ##### Этап 3. Запись трассы
 
 
+
+```bash
+LD_LIBRARY_PATH=~/natch_quickstart/libs/ ./run_record.sh
+```
+
+Процесс займёт 2-4 минуты.
+
+![image](https://user-images.githubusercontent.com/46653985/169649610-66112f49-ba02-4422-b11f-3ec8b6efe1c9.png)
+
+Введём логин и пароль - nat:123 и передём в каталог wget2
+
+![image](https://user-images.githubusercontent.com/46653985/169649705-bcd762b8-ae18-46a4-ae67-f18334b0d717.png)
+
+
+Ctrl + Alt + G
+
+![image](https://user-images.githubusercontent.com/46653985/169649738-0def47f6-b1b8-4544-9f72-7dc74a25be9d.png)
+
+![image](https://user-images.githubusercontent.com/46653985/169649904-2e873c76-ebe0-4601-9eeb-9a3b5c76e0a3.png)
+
+
 Теперь всё готово к анализу трассы.
 
 ##### Этап 4. Анализ трассы
