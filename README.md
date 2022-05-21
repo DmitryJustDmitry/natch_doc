@@ -19,9 +19,11 @@ Natch (Network Application Tainting Can Help) - это инструмент дл
 Комплект поставки Natch доступен в облаке, ниже приведены ссылки на доступные релизы (рекомендуется использовать наиболее актуальный релиз):
 
 **Актуальный релиз:**
+
 [Natch v.1.3](https://nextcloud.ispras.ru/index.php/s/Natch_v.1.3/download?path=%2F&downloadStartSecret=yyiov6rvlj)
 
 Предыдущие релизы:
+
 [Natch v.1.2.1](https://nextcloud.ispras.ru/index.php/s/8YSBjPSCMzAttWx)
 
 [Natch v.1.2](https://nextcloud.ispras.ru/s/Sd439xDgoyzLPTt)
@@ -316,6 +318,8 @@ map=~/natch_quickstart/wget2/wget2.map
 path==~/natch_quickstart/wget2/lib/libwget.so.1.0.0
 map==~/natch_quickstart/wget2/lib/libwget.so.1.0.0.map
 ```
+
+Заполнение конфигурационного файла можно автоматизировать, указав на вход скрипту, описанному в п. 2.2 документации, имя каталога на хосте, содержащего исполняемые файлы и map-файлы (их имена должны совпадать с именами соответствующих исполняемых файлов).
 
 ##### Этап 2. Формирование скриптового и конфигурациионного окружения
 
