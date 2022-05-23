@@ -130,7 +130,7 @@ sudo apt install  -y gnutls-dev gnutls-bin curl
 ```
 
 
-Скачаем исходные тексты wget с репозитория:
+Скачаем исходные тексты wget с репозитория в файловую систему хоста (сборку будем проводить именно на хосте):
 ```bash
 curl -o wget-1.21.2.tar.gz  'https://ftp.gnu.org/gnu/wget/wget-1.21.2.tar.gz'
 tar -xzf wget-1.21.2.tar.gz && cd wget-1.21.2
