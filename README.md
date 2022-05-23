@@ -328,7 +328,20 @@ path=/home/tester/natch_quickstart/wget2/lib/libwget.so.1.0.0
 map=/home/tester/natch_quickstart/wget2/lib/libwget.so.1.0.0.map
 ```
 
-Заполнение конфигурационного файла можно автоматизировать, указав на вход скрипту `qemu_plugins_2004_natch_release/bin/natch_scripts\module_config.py`, описанному в п. 2.2 документации, имя каталога на хосте, содержащего исполняемые файлы и map-файлы (имена map-файлов должны совпадать с именами соответствующих исполняемых файлов).
+Начиная с версии Natch v1.3 заполнение конфигурационного файла можно и нужно автоматизировать, указав на вход скрипту `qemu_plugins_2004_natch_release/bin/natch_scripts\module_config.py`, описанному в п. 2.2 документации, имя каталога на хосте, содержащего исполняемые файлы и map-файлы (имена map-файлов должны совпадать с именами соответствующих исполняемых файлов). Данный скрипт заполнит пути, также заполнит секцию textstart если определит, что таковое заполнение необходимо:
+
+```bash
+$ ./module_config.py /home/tester/natch_quickstart/wget2
+
+$ cat module_config.cfg 
+[Image1]
+path=/home/tester/natch_quickstart/wget2/wget2
+map=/home/tester/natch_quickstart/wget2/wget2.map
+
+[Image2]
+path=/home/tester/natch_quickstart/wget2/lib/libwget.so.1.0.0
+map=/home/tester/natch_quickstart/wget2/lib/libwget.so.1.0.0.map
+```
 
 ##### Этап 2. Формирование скриптового и конфигурациионного окружения
 
