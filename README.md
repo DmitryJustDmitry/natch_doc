@@ -422,7 +422,7 @@ tlog=tnetpackets.log
 file=coverage.cov64
 taint=true
 
-#[Plugins]ю.кг	
+#[Plugins]	
 # items=bcqti,broker,addr=:5555;some_plugin
 ```
 
