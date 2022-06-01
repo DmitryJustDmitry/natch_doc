@@ -257,18 +257,16 @@ cd /wget-1.21.2 && sudo ./wget ispras.ru
 - подготовленный разработчиком [тестовый набор]([https://nextcloud.ispras.ru/index.php/s/eCsXcM6QQgxRLWQ](https://nextcloud.ispras.ru/index.php/s/testing_materials)), включающий в себя пресобранную с символами и map-файлами версию wget2 и тестовый образ на базе Debian10, содержащий пресобранную версию wget2. 
 
 #### Получение образа и дистрибутива
-```bash ву  
-# Получение дистрибутива Natch
-curl -o Natch.zip 'https://nextcloud.ispras.ru/index.php/s/Natch_v.1.3/download?path=%2F&downloadStartSecret=yyiov6rvlj' && \
+
+**При выполнении действий в подготовленной виртуальной машине, содержащей Natch, самостоятельные скачивание и установка бинарного комплекта не требуются**
+
+В случае установки в формате бинарного комплекта следует скачать его по [ссылке](#комплект-поставки) и распаковать.
+
+Получение тестовых материалов Natch (подготовленный образ Linux с пресобранной программой wget2, подлежащей анализу):
+
+```bash
+# Получение тестовых материалов Natch
 curl -o Natch_testing_materials.zip 'https://nextcloud.ispras.ru/index.php/s/testing_materials/download?path=%2F&downloadStartSecret=mv78e6aiu1'
-
-unzip Natch.zip && \
-unzip Natch/Docs/docs.zip -d . && \
-unzip Natch/Bins/qemu_plugins_2004_natch_release_latest.zip -d . && \
-unzip Natch/Bins/libs_2004_natch_release_latest.zip -d . && \
-rm -f Natch.zip && \
-rm -rf Natch &&rm -rf 
-
 unzip Natch_testing_materials.zip && \
 mv Natch_testing_materials/* . && \
 unzip -u wget.zip && \
@@ -292,7 +290,7 @@ drwxrwxr-x  3 tester tester       4096 дек 23 15:17 wget2
 -rw-rw-r--  1 tester tester        208 апр 19 23:00 wget_api.cfg
 ```
 
-В каталоге `docs` размещается веб-страница руководства `Natch v.1.3 — QEMU documentation.html`. В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма [preload](https://www.baeldung.com/linux/ld_preload-trick-what-is#:~:text=The%20LD_PRELOAD%20trick%20is%20a,a%20collection%20of%20compiled%20functions.) при запуске qemu-system). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. Подготовленный образ в формате qcow2, каталог с пресобранной версией wget2 а также файл конфигурации `wget_api.cfg` (будет рассмотрен ниже) помещены в корень рабочего каталога (размещение не принципиально).
+В каталоге `docs` размещается веб-страница руководства. В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма [preload](https://www.baeldung.com/linux/ld_preload-trick-what-is#:~:text=The%20LD_PRELOAD%20trick%20is%20a,a%20collection%20of%20compiled%20functions.) при запуске qemu-system). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. Подготовленный образ в формате qcow2, каталог с пресобранной версией wget2 а также файл конфигурации `wget_api.cfg` (будет рассмотрен ниже) помещены в корень рабочего каталога (размещение не принципиально).
 
 #### Установка python-библиотек, обеспечивающих работоспособность скриптов
 ```bash
