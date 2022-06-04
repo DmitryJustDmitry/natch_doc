@@ -145,7 +145,7 @@ tar -xzf wget-1.21.2.tar.gz && cd wget-1.21.2
 Выполним скрипт: 
 
 ```bash
-CFLAGS='-g0 -Xlinker -Map=output.map' ./configure && \
+CFLAGS='-g -Xlinker -Map=output.map' ./configure && \
 make
 ```
 
