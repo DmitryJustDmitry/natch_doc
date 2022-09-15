@@ -498,23 +498,46 @@ localhost:15555> exit
 
 ##### 2.1.5. Воспроизведение трассы
 
-```bash
-LD_LIBRARY_PATH=~/natch_quickstart/libs/ ./run_replay.sh
-```
+Перед воспроизведением трассы следует заменить значение параметра `$SNAPSHOT` в скрипте `run_replay.sh` при определении значения `rrshapshot=$SNAPSHOT` на имя нашего снэпшота, например используя редактор `vim`:
+
+![image](https://user-images.githubusercontent.com/46653985/190402832-5b42bf9e-f690-4661-a79b-3aac7e429cf3.png)
 
 Начнём воспроизведение трассы (приблизительно на порядок медленнее, чем базовой выполнение - вы моментально оцените пользу создания снэпшота):
 
-![image](https://user-images.githubusercontent.com/46653985/169650206-15ab58e0-bcb0-4eb5-aa38-2c7b4777216c.png)
+```bash
+user@natch1:~/natch_quickstart$ LD_LIBRARY_PATH=/home/user/natch_quickstart/libs/ ./test1/run_replay.sh
+```
 
 В ходе выполнения, в случае если вам требуются какие-то диагностики, имеющие отношение к конкретному моменту, в мониторе можно вводить различные команды, в частности команды плагинов Natch, указанные в п. 5 документации, например команду `show_tasks`, возвращающую дерево процессов в гостевой ОС, на момент её выполнения:
 
 ![image](https://user-images.githubusercontent.com/46653985/169652276-5fc5e8e5-6d91-4e84-b53e-333074d39f9c.png)
 
-Через какое-то время выполнение сценария завершится, графическое окно закроется, и вы должны будете увидеть сообщение наподобие приведённого на рисунке ниже, свидетельствующее о том, что интересующие нас модули гостевой ОС были распознаны успешно, и следовательно мы получим в отчетах корректно символизированную информацию.
+Через какое-то время выполнение сценария завершится, графическое окно закроется, и вы должны будете увидеть сообщение наподобие приведённого ниже, свидетельствующее о том, что интересующие нас модули гостевой ОС (в данном случае это один модуль - redis-сервер) были распознаны успешно, и следовательно мы получим в отчетах корректно символизированную информацию.
 
-![image](https://user-images.githubusercontent.com/46653985/169653222-8d8ad214-ccf1-42f3-b938-aaa04568eaa3.png)
+```bash
+QEMU 6.2.0 monitor - type 'help' for more information
+(qemu) 
+6.2.0
+(c) 2020-2022 ISP RAS
 
-##### 2.1.3.Этап 6. Анализ трассы
+Reading Natch config file...
+Task graph enabled
+Taint enabled
+Config is loaded.
+Module binary log file /home/user/natch_quickstart/test1/output/log_m_b.log created successfully
+Modules: started reading binaries
+Modules: finished with 2 of 2 binaries for analysis
+thread_monitor: identification method is set to a complex developed at isp approach
+Started thread monitoring
+Process events binary log file /home/user/natch_quickstart/test1/output/log_p_b.log created successfully
+Tasks: config file is open.
+Binary log file /home/user/natch_quickstart/test1/output/log_t_b.log created successfully
+Detected module /home/user/natch_quickstart/Natch_testing_materials/Sample2_bins/redis-server execution
+```
+
+Если работа системы завершилась успешно, и вы не словили например `core dumped` (о чём стоит немедленно сообщить в [трекер](https://gitlab.community.ispras.ru/trackers/natch/-/issues) с приложением всех артефактов), можно переходить к собственно анализу трассы.
+
+##### 2.1.6. Анализ трассы в ручном режиме
 
 Основные виды диагностики, предоставляемые Natch, расписаны в п. 4 руководства. Следует ознакомиться со списками:
 - задействованных модулей
@@ -543,6 +566,9 @@ LD_LIBRARY_PATH=~/natch_quickstart/libs/ ./run_replay.sh
 
 Демонстрация покрытия по декомпилированному коду в настоящий момент не поддерживается.
 
+Также можно открыть и изучить записанный файл сетевого трафика `wireshark packets.pcap`:
+
+![image](https://user-images.githubusercontent.com/46653985/190404652-dd6c7c9b-5a48-48dc-87db-e78bef7f2bf1.png)
 
 
 
