@@ -198,7 +198,7 @@ find . -name *.map
 
 выбрав экспорт всей возможной информации
 
-<img src="https://user-images.githubusercontent.com/46653985/152351245-d3a3510f-adba-4919-adfb-be081a6800e8.png" width="150" height="150">
+<img src="https://user-images.githubusercontent.com/46653985/152351245-d3a3510f-adba-4919-adfb-be081a6800e8.png" width="200" height="200">
 
 после чего убедиться, что map-файл появился в файловой системе
 
