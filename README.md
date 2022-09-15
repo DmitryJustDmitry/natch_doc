@@ -333,18 +333,40 @@ user@natch1:~/natch_quickstart/snatch$ ./snatch_setup.sh
 user@natch1:~/natch_quickstart$ LD_LIBRARY_PATH=/home/user/natch_quickstart/libs/ ./qemu_plugins_2004_tainting_x64_natch/bin/natch_scripts/natch_run.py Natch_testing_materials/test_image_debian.qcow2 
 Image: /home/user/natch_quickstart/Natch_testing_materials/test_image_debian.qcow2
 OS: Linux
+```
+
+Вводим имя проекта - будет создан каталог с таким именем:
+
+```bash
 Enter path to directory for project (optional): test1
 Directory for project files '/home/user/natch_quickstart/test1' was created
 Directory for output files '/home/user/natch_quickstart/test1/output' was created
+```
+
+Сколько памяти выдать гостевой виртуальной машине:
+
+```bash
 Common options
 Enter RAM size with suffix G or M (e.g. 4G or 256M): 4G
+```
+
+При желании можно указать произвольное имя для главного конфигурационного файла Natch:
+```bash
 Natch options
 Enter name of config file (optional): 
 Now we will trying to create overlay: overlay created
+```
+
+Если наш сценарий предполагает передачу помеченных данных со сети (далее мы рассматриваем в качестве основного как раз сценарий №2 - взаимодействие с redis-сервером, слушающим tcp-порт 5555), нам следует передавать пакеты помеченных данных в гостевую ОС извне её - **перехват пакетов, отправитель и получатель которых "находятся" внутри гостевой ОС (localhost <--> localhost), в настоящий момент работает не стабильно и не рекомендуется к использованию**. Указываем Natch, какой порт мы хотим опубликовать в хостовую ОС:
+
+```bash
 Network option
 Do you want to use ports forwarding? [Y/n] Y
 Write the ports you want separated by commas (e.g. 7777, 8888, etc) 5555
 Your port for connecting outside: 15555
+```
+
+Далее нам нужно указать пути к каталогам на хосте, содержащим копии бинарных файлов, размещенных в гостевой ОС - 
 Modules part
 Do you want to create module config? [Y/n] Y
 Enter path to maps dir: Natch_testing_materials/Sample2_bins
