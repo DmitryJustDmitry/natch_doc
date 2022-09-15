@@ -366,13 +366,20 @@ Write the ports you want separated by commas (e.g. 7777, 8888, etc) 5555
 Your port for connecting outside: 15555
 ```
 
-Далее нам нужно указать пути к каталогам на хосте, содержащим копии бинарных файлов, размещенных в гостевой ОС - 
+Далее нам нужно указать пути к каталогам на хосте, содержащим копии бинарных файлов, размещенных в гостевой ОС - это как раз те самые файлы (собранные с символами, или с отдельными map-файлами), которые мы получили в ходе выполнения пункта [1.3.5](#135-перенос-прототипа-объекта-оценки-в-образ-вм). Нам нужно увидеть численное подтверждение того, что все помещенные в каталог файлы найдены (в данном комплекте их 2):
+
+```bash
 Modules part
 Do you want to create module config? [Y/n] Y
 Enter path to maps dir: Natch_testing_materials/Sample2_bins
 Your config file 'module_config.cfg' for modules was created
 ELF files found: 2
 Map files found: 2
+```
+
+Финальная стадия - конфигурирование технических параметров Natch, требующая тестового запуска виртуальной машины. В ходе данного запуска выполняется получение информации о параметрах ядра и заполнение ini-файла (данный файл не следует корректировать вручную, если только вы не абсолютно уверены в том, зачем вы это делаете). Вы можете отказаться от данного шага, в случае если этот файл уже был ранее создан для данного образа гостевой виртуальной машины - тогда вам потребуется указать к нему путь - однако в большинстве случаев вы вероятно будете создавать таковые файлы с нуля:
+
+```bash
 If you have a config file 'task_config.ini' you can copy it to work directory and skip tuning. Do you want to make tuning? [Y/n] Y
 
 Now will be launch tuning. Don't close emulator
@@ -406,9 +413,9 @@ Trying to find 12 kernel-specific parameters
 [12/12] Parameter - task_struct->state          : Found
 
 Tuning completed successfully! Now you can restart emulator and enjoy! :)
-
 ```
 
+Отлично! Автоматический тюнинг завершён.
 
 ##### 2.1.3.Этап 2. Формирование скриптового и конфигурационного окружения
 
