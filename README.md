@@ -587,15 +587,15 @@ user@natch1:~/natch_quickstart$ ./snatch/snatch_run.sh
 
 Создадим проект на основе результатов анализа трассы (необходимо указывать zip-архив, формируемый Natch в каталоге проекта по результатам выполнения `run_replay.sh`):
 
-![image](https://user-images.githubusercontent.com/46653985/190407222-c4bab44e-7e79-441f-94c9-0a436b730b03.png)
+<img src="https://user-images.githubusercontent.com/46653985/190407222-c4bab44e-7e79-441f-94c9-0a436b730b03.png" width="300" height="250">
 
 Через некоторое время процесс анализа завершится и станут доступны различные виды (их число и возможности постоянно нарастают) аналитик, такие как просмотр стека вызовов обработки помеченных данных:
 
-![image](https://user-images.githubusercontent.com/46653985/190407597-cba04ddf-f8f7-4b40-afc1-5fa0e594dc19.png)
+<img src="https://user-images.githubusercontent.com/46653985/190407597-cba04ddf-f8f7-4b40-afc1-5fa0e594dc19.png" width="400" height="500">
 
 а также основное окно динамической визуализации распространения помеченных данных:
 
-![image](https://user-images.githubusercontent.com/46653985/190407752-6adc7439-5b34-4795-a95f-006ceb6495e5.png)
+<img src="https://user-images.githubusercontent.com/46653985/190407752-6adc7439-5b34-4795-a95f-006ceb6495e5.png" width="400" height="500">
 
 Полное рукодство пользователя Snatch доступно в руководстве. Основное внимание нужно обратить на то, что ярким цветом на каждом шаге Timeline выделяются сущности, взаимодействующие на данном конкретном шаге Timeline.
 
