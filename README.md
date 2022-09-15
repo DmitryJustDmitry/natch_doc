@@ -294,41 +294,15 @@ cd /wget-1.21.2 && sudo ./wget ispras.ru
 
 В случае выполнении действий в подготовленной виртуальной машине, содержащей Natch, самостоятельные скачивание и установка бинарного комплекта не требуются.
 
-В случае установки в формате бинарного комплекта следует скачать его (например, команда для скачивания тестового комплекта с помощью curl `curl -o materials.zip 'https://nextcloud.ispras.ru/index.php/s/testing_2.0/download'`) и распаковать. Состав комплекта бинарной поставки в облачном хранилище выглядит примерно так: 
+В случае установки в формате бинарного комплекта следует скачать его и распаковать - команда для скачивания тестового комплекта с помощью curl выглядит так `curl -o materials.zip 'https://nextcloud.ispras.ru/index.php/s/testing_2.0/download'`. Состав комплекта бинарной поставки в облачном хранилище выглядит примерно так: 
 
-![image](https://user-images.githubusercontent.com/46653985/190381059-d3e5f651-eabb-48f1-9087-25dd5720ee24.png)
+<img src="https://user-images.githubusercontent.com/46653985/190381059-d3e5f651-eabb-48f1-9087-25dd5720ee24.png" width="400" height="175">
 
+После скачивания дистрибутива и обучающих материалов их следует распаковать - традиционно (но не обязетельно, реальное размещение файлов тестовых материалов непринципиально и зависит от ваших предпочтений) после распаковки содержимое каталога будет выглядеть примерно так:
 
+<img src="https://user-images.githubusercontent.com/46653985/190384425-8ae1d2d0-d07c-4d7b-ad9d-5174f71de50d.png" width="800" height="160">
 
-Получение тестовых материалов Natch (подготовленный образ Linux с пресобранной программой wget2, подлежащей анализу):
-
-```bash
-# Получение тестовых материалов Natch
-curl -o Natch_testing_materials.zip 'https://nextcloud.ispras.ru/index.php/s/testing_materials/download?path=%2F&downloadStartSecret=mv78e6aiu1' && \
-unzip Natch_testing_materials.zip && \
-mv Natch_testing_materials/* . && \
-unzip -u wget.zip && \
-rm -rf Natch_testing_materials && \
-rm Natch_testing_materials.zip && \
-rm wget.zip
-```
-
-Проверим, что всё на месте - реальное размещение файлов тестовых материалов непринципиально (в данном случае я поместил их непосредственно в каталог рабочих файлов Natch):
-```bash
-ls -la
-total 7150948
-drwxrwxr-x  6 tester tester       4096 мая 21 12:14 .
-drwxr-xr-x 19 tester tester       4096 мая 10 10:30 ..
--rw-r--r--  1 tester tester     197632 апр 19 23:08 debian10_wget2.diff
--rw-r--r--  1 tester tester 7322337280 апр 21 09:52 debian10_wget2.qcow2
-drwxrwxr-x  3 tester tester       4096 апр 22 10:52 docs
-drwxr-xr-x  2 tester tester       4096 апр 21 16:25 libs
-drwxr-xr-x  9 tester tester       4096 апр 21 16:25 qemu_plugins_2004_natch_release
-drwxrwxr-x  3 tester tester       4096 дек 23 15:17 wget2
--rw-rw-r--  1 tester tester        208 апр 19 23:00 wget_api.cfg
-```
-
-В каталоге `docs` размещается веб-страница руководства. В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма [preload](https://www.baeldung.com/linux/ld_preload-trick-what-is#:~:text=The%20LD_PRELOAD%20trick%20is%20a,a%20collection%20of%20compiled%20functions.) при запуске qemu-system). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. Подготовленный образ в формате qcow2, каталог с пресобранной версией wget2 а также файл конфигурации `wget_api.cfg` (будет рассмотрен ниже) помещены в корень рабочего каталога (размещение не принципиально).
+В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма [preload](https://www.baeldung.com/linux/ld_preload-trick-what-is#:~:text=The%20LD_PRELOAD%20trick%20is%20a,a%20collection%20of%20compiled%20functions.) при запуске qemu-system и иных qemu-процессов). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. Каталог `docs`, содержащий веб-страницу руководства, располагается внутри каталога `qemu_plugins...`.
 
 #### 2.1.2. Установка python-библиотек, обеспечивающих работоспособность скриптов
 ```bash
