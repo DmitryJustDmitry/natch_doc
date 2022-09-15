@@ -300,17 +300,28 @@ cd /wget-1.21.2 && sudo ./wget ispras.ru
 
 После скачивания дистрибутива и обучающих материалов их следует распаковать - традиционно (но не обязетельно, реальное размещение файлов тестовых материалов непринципиально и зависит от ваших предпочтений) после распаковки содержимое каталога будет выглядеть примерно так:
 
-<img src="https://user-images.githubusercontent.com/46653985/190384425-8ae1d2d0-d07c-4d7b-ad9d-5174f71de50d.png" width="800" height="160">
+<img src="https://user-images.githubusercontent.com/46653985/190384425-8ae1d2d0-d07c-4d7b-ad9d-5174f71de50d.png" width="600" height="140">
 
 В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма [preload](https://www.baeldung.com/linux/ld_preload-trick-what-is#:~:text=The%20LD_PRELOAD%20trick%20is%20a,a%20collection%20of%20compiled%20functions.) при запуске qemu-system и иных qemu-процессов). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. Каталог `docs`, содержащий веб-страницу руководства, располагается внутри каталога `qemu_plugins...`.
 
-#### 2.1.2. Установка python-библиотек, обеспечивающих работоспособность скриптов
-```bash
-cd qemu_plugins_2004_natch_release/bin/natch_scripts/
-pip3 install -r requirements.txt
+Учётные записи пользователей гостевой ОС: `user / user` и `root / root`.
+
+
+#### 2.1.2. Установка Natch и Snatch 
+
+Для работы Natch следует установить python-библиотеки, обеспечивающие работоспособность скриптов:
+
+```bash 
+user@natch1:~/natch_quickstart$ pip3 install -r qemu_plugins_2004_tainting_x64_natch/bin/natch_scripts/requirements.txt
 ```
 
-#### 2.1.3. Настройка Natch
+Для работы Snatch следует запустить установочный скрипт и дождаться его успешного выполнения (сообщения об ошибках сборки некоторых python-пакетов можно игнорировать при условии того, что скрипт в целом завершается успешно):
+
+```bash
+user@natch1:~/natch_quickstart/snatch$ ./snatch_setup.sh
+```
+
+#### 2.1.3. Настройка Natch для работы с тестовым образом ОС
 
 Процесс настройки Natch состоит из четырёх этапов (предназначение файлов конфигурации и их параметров **подробно расписано в документации**):
 
