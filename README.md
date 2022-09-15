@@ -300,7 +300,7 @@ cd /wget-1.21.2 && sudo ./wget ispras.ru
 
 После скачивания дистрибутива и обучающих материалов их следует распаковать - традиционно (но не обязетельно, реальное размещение файлов тестовых материалов непринципиально и зависит от ваших предпочтений) после распаковки содержимое каталога будет выглядеть примерно так:
 
-<img src="https://user-images.githubusercontent.com/46653985/190384425-8ae1d2d0-d07c-4d7b-ad9d-5174f71de50d.png" width="600" height="140">
+<img src="https://user-images.githubusercontent.com/46653985/190384425-8ae1d2d0-d07c-4d7b-ad9d-5174f71de50d.png" width="650" height="140">
 
 В каталоге `libs` размещаются используемые Natch библиотеки (подключаются с использованием стандартного механизма [preload](https://www.baeldung.com/linux/ld_preload-trick-what-is#:~:text=The%20LD_PRELOAD%20trick%20is%20a,a%20collection%20of%20compiled%20functions.) при запуске qemu-system и иных qemu-процессов). В каталоге `qemu_plugins...` помещаются собственно исполняемые файлы Natch. Каталог `docs`, содержащий веб-страницу руководства, располагается внутри каталога `qemu_plugins...`.
 
@@ -323,52 +323,70 @@ user@natch1:~/natch_quickstart/snatch$ ./snatch_setup.sh
 
 #### 2.1.3. Настройка Natch для работы с тестовым образом ОС
 
-Процесс настройки Natch состоит из четырёх этапов (предназначение файлов конфигурации и их параметров **подробно расписано в документации**):
+Процесс настройки состоит из двух этапов - автоматизированно (обязательный) и ручного (дополнительный, при необходимости тонкой настройки). Предназначение файлов конфигурации и их параметров **подробно расписано в документации**):
 
-##### 2.1.3.Этап 1. Заполнение конфигурации маппинга исполняемых модулей
+##### 2.1.3.1. Автоматизированная настройка
 
-Заполнение данного файла позволяет повысить вероятность распознавания Natch имен модулей и функций, исполняемых в виртуализированной среде. В комплекте поставки тестового примера имеется предзаполненный файл `wget_api.cfg`, который содержит маппинги для пресобранных с символами исполняемого файла wget2 и разделяемой библиотеки libwget.so.1.0.0, расположенных в каталоге `natch_quickstart\wget2` хостовой системы в формате непосредственно указания пути к файлу и соответствующего ему map-файла (альтернативный подход - указание пути к каталогу со всеми образами исполняемых файлов - описан в документации). Первоначально файл имеет следующий вид:
-
-```bash
-cat wget_api.cfg 
-[Image1]
-path=wget2/wget2
-map=wget2/wget2.map
-textstart=0xC000
-
-[Image2]
-path=wget2/lib/libwget.so.1.0.0
-map=wget2/lib/libwget.so.1.0.0.map
-textstart=0xe000
-```
-
-Модифицируем файл, указав абсолютные пути (для надёжности) и удалив описание секции `textstart` (избыточно, поскольку адреса функции нашего исполняемого файла заданы в относительном формате, что допускает их автоматическое вычисление без дополнительной информации - см. документацию п. 2.2): 
+Автоматизированная настройка выполняется интерактивным скриптом `natch_run.py`, выводимые которым вопросы и примеры ответов на которые приведём далее. Запуск скрипта (**не забываем про необходимость прелоада библиотек**):
 
 ```bash
-cat ../wget_api.cfg 
-[Image1]
-path=/home/tester/natch_quickstart/wget2/wget2
-map=/home/tester/natch_quickstart/wget2/wget2.map
+user@natch1:~/natch_quickstart$ LD_LIBRARY_PATH=/home/user/natch_quickstart/libs/ ./qemu_plugins_2004_tainting_x64_natch/bin/natch_scripts/natch_run.py Natch_testing_materials/test_image_debian.qcow2 
+Image: /home/user/natch_quickstart/Natch_testing_materials/test_image_debian.qcow2
+OS: Linux
+Enter path to directory for project (optional): test1
+Directory for project files '/home/user/natch_quickstart/test1' was created
+Directory for output files '/home/user/natch_quickstart/test1/output' was created
+Common options
+Enter RAM size with suffix G or M (e.g. 4G or 256M): 4G
+Natch options
+Enter name of config file (optional): 
+Now we will trying to create overlay: overlay created
+Network option
+Do you want to use ports forwarding? [Y/n] Y
+Write the ports you want separated by commas (e.g. 7777, 8888, etc) 5555
+Your port for connecting outside: 15555
+Modules part
+Do you want to create module config? [Y/n] Y
+Enter path to maps dir: Natch_testing_materials/Sample2_bins
+Your config file 'module_config.cfg' for modules was created
+ELF files found: 2
+Map files found: 2
+If you have a config file 'task_config.ini' you can copy it to work directory and skip tuning. Do you want to make tuning? [Y/n] Y
 
-[Image2]
-path=/home/tester/natch_quickstart/wget2/lib/libwget.so.1.0.0
-map=/home/tester/natch_quickstart/wget2/lib/libwget.so.1.0.0.map
+Now will be launch tuning. Don't close emulator
+Three...
+Two..
+One.
+Go!
+QEMU 6.2.0 monitor - type 'help' for more information
+(qemu) 
+6.2.0
+(c) 2020-2022 ISP RAS
+
+Reading Natch config file...
+[Tasks] No such file '/home/user/natch_quickstart/test1/task_config.ini'. It will be created.
+Now tuning will be launched.
+
+Tuning started. Please wait a little...
+Generating config file: /home/user/natch_quickstart/test1/task_config.ini
+Trying to find 12 kernel-specific parameters
+[01/12] Parameter - task_struct->pid            : Found
+[02/12] Parameter - task_struct->comm           : Found
+[03/12] Parameter - task_struct->parent         : Found
+[04/12] Parameter - files_struct fields         : Found
+[05/12] Parameter - vm_area_struct size         : Found
+[06/12] Parameter - vm_area_struct->vm_start    : Found
+[07/12] Parameter - vm_area_struct->vm_end      : Found
+[08/12] Parameter - vm_area_struct->vm_flags    : Found
+[09/12] Parameter - mm->map_count               : Found
+[10/12] Parameter - mm_struct fields            : Found
+[11/12] Parameter - task_struct->mm             : Found
+[12/12] Parameter - task_struct->state          : Found
+
+Tuning completed successfully! Now you can restart emulator and enjoy! :)
+
 ```
 
-Начиная с версии Natch v1.3 заполнение конфигурационного файла можно и нужно автоматизировать, указав на вход скрипту `qemu_plugins_2004_natch_release/bin/natch_scripts\module_config.py`, описанному в п. 2.2 документации, имя каталога на хосте, содержащего исполняемые файлы и map-файлы (имена map-файлов должны совпадать с именами соответствующих исполняемых файлов). Данный скрипт заполнит пути, также заполнит секцию textstart если определит, что таковое заполнение необходимо:
-
-```bash
-$ ./module_config.py /home/tester/natch_quickstart/wget2
-
-$ cat module_config.cfg 
-[Image1]
-path=/home/tester/natch_quickstart/wget2/wget2
-map=/home/tester/natch_quickstart/wget2/wget2.map
-
-[Image2]
-path=/home/tester/natch_quickstart/wget2/lib/libwget.so.1.0.0
-map=/home/tester/natch_quickstart/wget2/lib/libwget.so.1.0.0.map
-```
 
 ##### 2.1.3.Этап 2. Формирование скриптового и конфигурационного окружения
 
